@@ -1,0 +1,18 @@
+spring:
+  application:
+    name: ns-gateway
+  main:
+    allow-circular-references: true
+  cloud:
+    nacos:
+      discovery:
+        ip: 139.9.133.223
+        server-addr: 139.9.133.223:3000
+        namespace: DEV
+        group: DEV
+      config:
+        server-addr: 139.9.133.223:3000
+        prefix: ${spring.application.name}
+        file-extension: yaml
+        namespace: DEV
+        group: DEV

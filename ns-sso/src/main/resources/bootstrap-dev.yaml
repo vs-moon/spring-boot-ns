@@ -1,0 +1,41 @@
+spring:
+  application:
+    name: ns-sso
+  main:
+    allow-circular-references: true
+  cloud:
+    nacos:
+      discovery:
+        ip: 139.9.133.223
+        server-addr: 139.9.133.223:3000
+        namespace: DEV
+        group: DEV
+      config:
+        server-addr: 139.9.133.223:3000
+        prefix: ${spring.application.name}
+        file-extension: yaml
+        namespace: DEV
+        group: DEV
+
+        shared-configs:
+          - data-id: cs-common.yaml
+            group: NATIVE
+            refresh: true
+          - data-id: cs-db.yaml
+            group: NATIVE
+            refresh: true
+          - data-id: cs-log.yaml
+            group: NATIVE
+            refresh: true
+          - data-id: cs-properties.yaml
+            group: NATIVE
+            refresh: true
+          - data-id: cs-seata.yaml
+            group: NATIVE
+            refresh: true
+          - data-id: cs-sentinel.yaml
+            group: NATIVE
+            refresh: true
+          - data-id: cs-sso.yaml
+            group: NATIVE
+            refresh: true
