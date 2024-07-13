@@ -1,6 +1,6 @@
 package org.xiao.ns.service.impl;
 
-import com.github.pagehelper.Page;
+import com.github.pagehelper.PageInfo;
 import jakarta.annotation.Resource;
 import org.springframework.stereotype.Service;
 import org.xiao.cs.common.box.domain.ArgsState;
@@ -47,12 +47,12 @@ public class RoleServiceImpl implements RoleService {
     }
 
     @Override
-    public List<Role> selectMany(Role record) {
+    public List<? extends Role> selectMany(Role record) {
         return roleManage.selectMany(record);
     }
 
     @Override
-    public Page<Role> selectPage(Role record, int pageNum, int pageSize) {
+    public PageInfo<? extends Role> selectPage(Role record, int pageNum, int pageSize) {
         return roleManage.selectPage(record, pageNum, pageSize);
     }
 

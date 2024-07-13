@@ -2,11 +2,11 @@ package org.xiao.ns.manage;
 
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import jakarta.annotation.Resource;
 import org.springframework.stereotype.Service;
 import org.xiao.cs.common.box.domain.ArgsState;
-import org.xiao.cs.common.box.domain.CommonRequest;
-import org.xiao.cs.db.box.service.business.BusinessService;
+import org.xiao.cs.db.box.norm.manage.ManageService;
 import org.xiao.ns.domain.po.Api;
 import org.xiao.ns.mapper.ApiDynamicSqlSupport;
 import org.xiao.ns.mapper.ApiMapper;
@@ -17,7 +17,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 import static org.mybatis.dynamic.sql.SqlBuilder.*;
 
 @Service
-public class ApiManage implements BusinessService<Api> {
+public class ApiManage implements ManageService<Api> {
 
     @Resource
     ApiMapper apiMapper;
@@ -63,9 +63,9 @@ public class ApiManage implements BusinessService<Api> {
     }
 
     @Override
-    public Page<Api> selectPage(Api record, int pageNum, int pageSize) {
+    public PageInfo<Api> selectPage(Api record, int pageNum, int pageSize) {
         try (Page<Api> page = PageHelper.startPage(pageNum, pageSize)) {
-            return page.doSelectPage(() -> selectMany(record));
+            return page.doSelectPageInfo(() -> selectMany(record));
         }
     }
 

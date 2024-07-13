@@ -2,11 +2,13 @@ package org.xiao.ns.manage;
 
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import jakarta.annotation.Resource;
 import org.springframework.stereotype.Service;
 import org.xiao.cs.common.box.constant.CommonConstant;
 import org.xiao.cs.common.box.domain.ArgsState;
-import org.xiao.cs.db.box.service.business.BusinessService;
+import org.xiao.cs.db.box.norm.manage.ManageService;
+import org.xiao.cs.db.box.norm.manage.ManageServiceCount;
 import org.xiao.ns.domain.po.Menu;
 import org.xiao.ns.mapper.MenuDynamicSqlSupport;
 import org.xiao.ns.mapper.MenuMapper;
@@ -17,7 +19,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 import static org.mybatis.dynamic.sql.SqlBuilder.*;
 
 @Service
-public class MenuManage implements BusinessService<Menu> {
+public class MenuManage implements ManageService<Menu>, ManageServiceCount<Menu, Long> {
 
     @Resource
     MenuMapper menuMapper;
@@ -73,9 +75,9 @@ public class MenuManage implements BusinessService<Menu> {
     }
 
     @Override
-    public Page<Menu> selectPage(Menu record, int pageNum, int pageSize) {
+    public PageInfo<Menu> selectPage(Menu record, int pageNum, int pageSize) {
         try (Page<Menu> page = PageHelper.startPage(pageNum, pageSize)) {
-            return page.doSelectPage(() -> selectMany(record));
+            return page.doSelectPageInfo(() -> selectMany(record));
         }
     }
 
@@ -131,5 +133,10 @@ public class MenuManage implements BusinessService<Menu> {
                 .set(MenuDynamicSqlSupport.valid).equalTo(record.getTo())
                 .where()
                 .and(MenuDynamicSqlSupport.id, isIn(record.getBy())));
+    }
+
+    @Override
+    public long countByKey(Long record) {
+        return menuMapper.count(menu -> menu.where(MenuDynamicSqlSupport.parentId, isEqualTo(record)));
     }
 }

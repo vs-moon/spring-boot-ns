@@ -2,6 +2,7 @@ package org.xiao.ns.manage;
 
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import jakarta.annotation.Resource;
 import org.apache.commons.lang3.ArrayUtils;
 import org.mybatis.dynamic.sql.render.RenderingStrategies;
@@ -10,7 +11,7 @@ import org.mybatis.dynamic.sql.select.render.SelectStatementProvider;
 import org.springframework.stereotype.Service;
 import org.xiao.cs.common.box.constant.CommonConstant;
 import org.xiao.cs.common.box.domain.ArgsState;
-import org.xiao.cs.db.box.service.business.BusinessService;
+import org.xiao.cs.db.box.norm.manage.ManageService;
 import org.xiao.ns.domain.po.Permission;
 import org.xiao.ns.mapper.PermissionDynamicSqlSupport;
 import org.xiao.ns.mapper.PermissionMapper;
@@ -21,7 +22,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 import static org.mybatis.dynamic.sql.SqlBuilder.*;
 
 @Service
-public class PermissionManage implements BusinessService<Permission> {
+public class PermissionManage implements ManageService<Permission> {
 
     @Resource
     PermissionMapper permissionMapper;
@@ -95,9 +96,9 @@ public class PermissionManage implements BusinessService<Permission> {
     }
 
     @Override
-    public Page<Permission> selectPage(Permission record, int pageNum, int pageSize) {
+    public PageInfo<Permission> selectPage(Permission record, int pageNum, int pageSize) {
         try (Page<Permission> page = PageHelper.startPage(pageNum, pageSize)) {
-            return page.doSelectPage(() -> selectMany(record));
+            return page.doSelectPageInfo(() -> selectMany(record));
         }
     }
 

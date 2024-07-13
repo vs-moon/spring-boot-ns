@@ -36,7 +36,7 @@
     <dependencies>
       <dependency>
         <groupId>org.xiao.cs</groupId>
-        <artifactId>cs</artifactId>
+        <artifactId>spring-boot-cs</artifactId>
         <version>${project.version}</version>
         <type>pom</type>
         <scope>import</scope>

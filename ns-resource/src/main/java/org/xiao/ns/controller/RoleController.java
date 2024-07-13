@@ -1,12 +1,12 @@
 package org.xiao.ns.controller;
 
-import com.github.pagehelper.Page;
+import com.github.pagehelper.PageInfo;
 import jakarta.annotation.Resource;
 import org.springframework.web.bind.annotation.*;
 import org.xiao.cs.common.box.domain.ArgsState;
 import org.xiao.cs.common.box.domain.CommonRequest;
 import org.xiao.cs.common.box.domain.CommonRequestPaging;
-import org.xiao.cs.db.box.service.entry.EntryService;
+import org.xiao.cs.db.box.norm.face.FaceService;
 import org.xiao.ns.domain.po.Role;
 import org.xiao.ns.service.RoleService;
 
@@ -14,7 +14,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("role")
-public class RoleController implements EntryService<Role> {
+public class RoleController implements FaceService<Role> {
 
     @Resource
     RoleService roleService;
@@ -51,13 +51,13 @@ public class RoleController implements EntryService<Role> {
 
     @Override
     @PostMapping("selectMany")
-    public List<Role> selectMany(@RequestBody CommonRequest<Role> record) {
+    public List<? extends Role> selectMany(@RequestBody CommonRequest<Role> record) {
         return roleService.selectMany(record.getArgs());
     }
 
     @Override
     @PostMapping("selectPage")
-    public Page<Role> selectPage(@RequestBody CommonRequestPaging<Role> record) {
+    public PageInfo<? extends Role> selectPage(@RequestBody CommonRequestPaging<Role> record) {
         return roleService.selectPage(record.getArgs(), record.getPaging().getPageNum(), record.getPaging().getPageSize());
     }
 

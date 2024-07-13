@@ -1,6 +1,6 @@
 package org.xiao.ns.service.impl;
 
-import com.github.pagehelper.Page;
+import com.github.pagehelper.PageInfo;
 import jakarta.annotation.Resource;
 import org.springframework.stereotype.Service;
 import org.xiao.cs.common.box.domain.ArgsState;
@@ -42,12 +42,12 @@ public class DicServiceImpl implements DicService {
     }
 
     @Override
-    public List<Dic> selectMany(Dic record) {
+    public List<? extends Dic> selectMany(Dic record) {
         return dicManage.selectMany(record);
     }
 
     @Override
-    public Page<Dic> selectPage(Dic record, int pageNum, int pageSize) {
+    public PageInfo<? extends Dic> selectPage(Dic record, int pageNum, int pageSize) {
         return dicManage.selectPage(record, pageNum, pageSize);
     }
 

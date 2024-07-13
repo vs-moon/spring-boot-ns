@@ -1,12 +1,12 @@
 package org.xiao.ns.controller;
 
-import com.github.pagehelper.Page;
+import com.github.pagehelper.PageInfo;
 import jakarta.annotation.Resource;
 import org.springframework.web.bind.annotation.*;
 import org.xiao.cs.common.box.domain.ArgsState;
 import org.xiao.cs.common.box.domain.CommonRequest;
 import org.xiao.cs.common.box.domain.CommonRequestPaging;
-import org.xiao.cs.db.box.service.entry.EntryService;
+import org.xiao.cs.db.box.norm.face.FaceService;
 import org.xiao.ns.domain.po.DicType;
 import org.xiao.ns.service.DicTypeService;
 
@@ -14,7 +14,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("dicType")
-public class DicTypeController implements EntryService<DicType> {
+public class DicTypeController implements FaceService<DicType> {
 
     @Resource
     DicTypeService dicTypeService;
@@ -51,13 +51,13 @@ public class DicTypeController implements EntryService<DicType> {
 
     @Override
     @PostMapping("selectMany")
-    public List<DicType> selectMany(@RequestBody CommonRequest<DicType> record) {
+    public List<? extends DicType> selectMany(@RequestBody CommonRequest<DicType> record) {
         return dicTypeService.selectMany(record.getArgs());
     }
 
     @Override
     @PostMapping("selectPage")
-    public Page<DicType> selectPage(@RequestBody CommonRequestPaging<DicType> record) {
+    public PageInfo<? extends DicType> selectPage(@RequestBody CommonRequestPaging<DicType> record) {
         return dicTypeService.selectPage(record.getArgs(), record.getPaging().getPageNum(), record.getPaging().getPageSize());
     }
 

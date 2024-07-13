@@ -1,12 +1,12 @@
 package org.xiao.ns.controller;
 
-import com.github.pagehelper.Page;
+import com.github.pagehelper.PageInfo;
 import jakarta.annotation.Resource;
 import org.springframework.web.bind.annotation.*;
 import org.xiao.cs.common.box.domain.ArgsState;
 import org.xiao.cs.common.box.domain.CommonRequest;
 import org.xiao.cs.common.box.domain.CommonRequestPaging;
-import org.xiao.cs.db.box.service.entry.EntryService;
+import org.xiao.cs.db.box.norm.face.FaceService;
 import org.xiao.ns.domain.po.Dic;
 import org.xiao.ns.service.DicService;
 
@@ -14,7 +14,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("dic")
-public class DicController implements EntryService<Dic> {
+public class DicController implements FaceService<Dic> {
 
     @Resource
     DicService dicService;
@@ -51,13 +51,13 @@ public class DicController implements EntryService<Dic> {
 
     @Override
     @PostMapping("selectMany")
-    public List<Dic> selectMany(@RequestBody CommonRequest<Dic> record) {
+    public List<? extends Dic> selectMany(@RequestBody CommonRequest<Dic> record) {
         return dicService.selectMany(record.getArgs());
     }
 
     @Override
     @PostMapping("selectPage")
-    public Page<Dic> selectPage(@RequestBody CommonRequestPaging<Dic> record) {
+    public PageInfo<? extends Dic> selectPage(@RequestBody CommonRequestPaging<Dic> record) {
         return dicService.selectPage(record.getArgs(), record.getPaging().getPageNum(), record.getPaging().getPageSize());
     }
 

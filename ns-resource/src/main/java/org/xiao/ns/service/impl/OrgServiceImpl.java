@@ -1,6 +1,6 @@
 package org.xiao.ns.service.impl;
 
-import com.github.pagehelper.Page;
+import com.github.pagehelper.PageInfo;
 import jakarta.annotation.Resource;
 import org.springframework.stereotype.Service;
 import org.xiao.cs.common.box.domain.ArgsState;
@@ -47,12 +47,12 @@ public class OrgServiceImpl implements OrgService {
     }
 
     @Override
-    public List<Org> selectMany(Org record) {
+    public List<? extends Org> selectMany(Org record) {
         return orgManage.selectMany(record);
     }
 
     @Override
-    public Page<Org> selectPage(Org record, int pageNum, int pageSize) {
+    public PageInfo<? extends Org> selectPage(Org record, int pageNum, int pageSize) {
         return orgManage.selectPage(record, pageNum, pageSize);
     }
 

@@ -1,12 +1,12 @@
 package org.xiao.ns.controller;
 
-import com.github.pagehelper.Page;
+import com.github.pagehelper.PageInfo;
 import jakarta.annotation.Resource;
 import org.springframework.web.bind.annotation.*;
 import org.xiao.cs.common.box.domain.ArgsState;
 import org.xiao.cs.common.box.domain.CommonRequest;
 import org.xiao.cs.common.box.domain.CommonRequestPaging;
-import org.xiao.cs.db.box.service.entry.EntryService;
+import org.xiao.cs.db.box.norm.face.FaceService;
 import org.xiao.ns.domain.po.Member;
 import org.xiao.ns.service.MemberService;
 
@@ -14,7 +14,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("member")
-public class MemberController implements EntryService<Member> {
+public class MemberController implements FaceService<Member> {
 
     @Resource
     MemberService memberService;
@@ -51,13 +51,13 @@ public class MemberController implements EntryService<Member> {
 
     @Override
     @PostMapping("selectMany")
-    public List<Member> selectMany(@RequestBody CommonRequest<Member> record) {
+    public List<? extends Member> selectMany(@RequestBody CommonRequest<Member> record) {
         return memberService.selectMany(record.getArgs());
     }
 
     @Override
     @PostMapping("selectPage")
-    public Page<Member> selectPage(@RequestBody CommonRequestPaging<Member> record) {
+    public PageInfo<? extends Member> selectPage(@RequestBody CommonRequestPaging<Member> record) {
         return memberService.selectPage(record.getArgs(), record.getPaging().getPageNum(), record.getPaging().getPageSize());
     }
 

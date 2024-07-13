@@ -2,10 +2,11 @@ package org.xiao.ns.manage;
 
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import jakarta.annotation.Resource;
 import org.springframework.stereotype.Service;
 import org.xiao.cs.common.box.domain.ArgsState;
-import org.xiao.cs.db.box.service.business.BusinessService;
+import org.xiao.cs.db.box.norm.manage.ManageService;
 import org.xiao.ns.domain.po.Dic;
 import org.xiao.ns.mapper.DicDynamicSqlSupport;
 import org.xiao.ns.mapper.DicMapper;
@@ -16,7 +17,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 import static org.mybatis.dynamic.sql.SqlBuilder.*;
 
 @Service
-public class DicManage implements BusinessService<Dic> {
+public class DicManage implements ManageService<Dic> {
 
     @Resource
     DicMapper dicMapper;
@@ -62,9 +63,9 @@ public class DicManage implements BusinessService<Dic> {
     }
 
     @Override
-    public Page<Dic> selectPage(Dic record, int pageNum, int pageSize) {
+    public PageInfo<Dic> selectPage(Dic record, int pageNum, int pageSize) {
         try (Page<Dic> page = PageHelper.startPage(pageNum, pageSize)) {
-            return page.doSelectPage(() -> selectMany(record));
+            return page.doSelectPageInfo(() -> selectMany(record));
         }
     }
 

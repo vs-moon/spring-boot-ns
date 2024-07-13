@@ -1,6 +1,6 @@
 package org.xiao.ns.service.impl;
 
-import com.github.pagehelper.Page;
+import com.github.pagehelper.PageInfo;
 import jakarta.annotation.Resource;
 import org.springframework.stereotype.Service;
 import org.xiao.cs.common.box.domain.ArgsState;
@@ -42,12 +42,12 @@ public class ApiServiceImpl implements ApiService {
     }
 
     @Override
-    public List<Api> selectMany(Api record) {
+    public List<? extends Api> selectMany(Api record) {
         return apiManage.selectMany(record);
     }
 
     @Override
-    public Page<Api> selectPage(Api record, int pageNum, int pageSize) {
+    public PageInfo<? extends Api> selectPage(Api record, int pageNum, int pageSize) {
         return apiManage.selectPage(record, pageNum, pageSize);
     }
 

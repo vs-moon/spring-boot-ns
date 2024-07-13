@@ -2,10 +2,11 @@ package org.xiao.ns.manage;
 
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import jakarta.annotation.Resource;
 import org.springframework.stereotype.Service;
 import org.xiao.cs.common.box.domain.ArgsState;
-import org.xiao.cs.db.box.service.business.BusinessService;
+import org.xiao.cs.db.box.norm.manage.ManageService;
 import org.xiao.cs.sso.box.utils.EncoderUtils;
 import org.xiao.ns.domain.po.*;
 import org.xiao.ns.mapper.*;
@@ -17,7 +18,7 @@ import static org.mybatis.dynamic.sql.SqlBuilder.*;
 import static org.mybatis.dynamic.sql.SqlBuilder.isEqualToWhenPresent;
 
 @Service
-public class MemberManage implements BusinessService<Member> {
+public class MemberManage implements ManageService<Member> {
     @Resource
     private MemberMapper memberMapper;
 
@@ -61,9 +62,9 @@ public class MemberManage implements BusinessService<Member> {
     }
 
     @Override
-    public Page<Member> selectPage(Member record, int pageNum, int pageSize) {
+    public PageInfo<Member> selectPage(Member record, int pageNum, int pageSize) {
         try (Page<Member> page = PageHelper.startPage(pageNum, pageSize)) {
-            return page.doSelectPage(() -> selectMany(record));
+            return page.doSelectPageInfo(() -> selectMany(record));
         }
     }
 

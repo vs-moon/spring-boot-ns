@@ -1,6 +1,6 @@
 package org.xiao.ns.service.impl;
 
-import com.github.pagehelper.Page;
+import com.github.pagehelper.PageInfo;
 import jakarta.annotation.Resource;
 import org.springframework.stereotype.Service;
 import org.xiao.cs.common.box.domain.ArgsState;
@@ -48,12 +48,12 @@ public class PermissionServiceImpl implements PermissionService {
     }
 
     @Override
-    public List<Permission> selectMany(Permission record) {
+    public List<? extends Permission> selectMany(Permission record) {
         return permissionManage.selectMany(record);
     }
 
     @Override
-    public Page<Permission> selectPage(Permission record, int pageNum, int pageSize) {
+    public PageInfo<? extends Permission> selectPage(Permission record, int pageNum, int pageSize) {
         return permissionManage.selectPage(record, pageNum, pageSize);
     }
 

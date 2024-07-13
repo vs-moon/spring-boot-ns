@@ -1,12 +1,12 @@
 package org.xiao.ns.controller;
 
-import com.github.pagehelper.Page;
+import com.github.pagehelper.PageInfo;
 import jakarta.annotation.Resource;
 import org.springframework.web.bind.annotation.*;
 import org.xiao.cs.common.box.domain.ArgsState;
 import org.xiao.cs.common.box.domain.CommonRequest;
 import org.xiao.cs.common.box.domain.CommonRequestPaging;
-import org.xiao.cs.db.box.service.entry.EntryService;
+import org.xiao.cs.db.box.norm.face.FaceService;
 import org.xiao.ns.domain.po.Org;
 import org.xiao.ns.service.OrgService;
 
@@ -14,7 +14,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("org")
-public class OrgController implements EntryService<Org> {
+public class OrgController implements FaceService<Org> {
 
     @Resource
     OrgService orgService;
@@ -51,13 +51,13 @@ public class OrgController implements EntryService<Org> {
 
     @Override
     @PostMapping("selectMany")
-    public List<Org> selectMany(@RequestBody CommonRequest<Org> record) {
+    public List<? extends Org> selectMany(@RequestBody CommonRequest<Org> record) {
         return orgService.selectMany(record.getArgs());
     }
 
     @Override
     @PostMapping("selectPage")
-    public Page<Org> selectPage(@RequestBody CommonRequestPaging<Org> record) {
+    public PageInfo<? extends Org> selectPage(@RequestBody CommonRequestPaging<Org> record) {
         return orgService.selectPage(record.getArgs(), record.getPaging().getPageNum(), record.getPaging().getPageSize());
     }
 

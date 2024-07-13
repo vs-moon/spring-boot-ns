@@ -1,12 +1,12 @@
 package org.xiao.ns.controller;
 
-import com.github.pagehelper.Page;
+import com.github.pagehelper.PageInfo;
 import jakarta.annotation.Resource;
 import org.springframework.web.bind.annotation.*;
 import org.xiao.cs.common.box.domain.ArgsState;
 import org.xiao.cs.common.box.domain.CommonRequest;
 import org.xiao.cs.common.box.domain.CommonRequestPaging;
-import org.xiao.cs.db.box.service.entry.EntryService;
+import org.xiao.cs.db.box.norm.face.FaceService;
 import org.xiao.ns.domain.po.Permission;
 import org.xiao.ns.service.PermissionService;
 
@@ -14,7 +14,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("permission")
-public class PermissionController implements EntryService<Permission> {
+public class PermissionController implements FaceService<Permission> {
 
     @Resource
     PermissionService permissionService;
@@ -51,13 +51,13 @@ public class PermissionController implements EntryService<Permission> {
 
     @Override
     @PostMapping("selectMany")
-    public List<Permission> selectMany(@RequestBody CommonRequest<Permission> record) {
+    public List<? extends Permission> selectMany(@RequestBody CommonRequest<Permission> record) {
         return permissionService.selectMany(record.getArgs());
     }
 
     @Override
     @PostMapping("selectPage")
-    public Page<Permission> selectPage(@RequestBody CommonRequestPaging<Permission> record) {
+    public PageInfo<? extends Permission> selectPage(@RequestBody CommonRequestPaging<Permission> record) {
         return permissionService.selectPage(record.getArgs(), record.getPaging().getPageNum(), record.getPaging().getPageSize());
     }
 

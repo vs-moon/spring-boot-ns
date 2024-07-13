@@ -1,12 +1,12 @@
 package org.xiao.ns.controller;
 
-import com.github.pagehelper.Page;
+import com.github.pagehelper.PageInfo;
 import jakarta.annotation.Resource;
 import org.springframework.web.bind.annotation.*;
 import org.xiao.cs.common.box.domain.ArgsState;
 import org.xiao.cs.common.box.domain.CommonRequest;
 import org.xiao.cs.common.box.domain.CommonRequestPaging;
-import org.xiao.cs.db.box.service.entry.EntryService;
+import org.xiao.cs.db.box.norm.face.FaceService;
 import org.xiao.ns.domain.po.Menu;
 import org.xiao.ns.service.MenuService;
 
@@ -14,7 +14,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("menu")
-public class MenuController implements EntryService<Menu> {
+public class MenuController implements FaceService<Menu> {
 
     @Resource
     MenuService menuService;
@@ -51,13 +51,13 @@ public class MenuController implements EntryService<Menu> {
 
     @Override
     @PostMapping("selectMany")
-    public List<Menu> selectMany(@RequestBody CommonRequest<Menu> record) {
+    public List<? extends Menu> selectMany(@RequestBody CommonRequest<Menu> record) {
         return menuService.selectMany(record.getArgs());
     }
 
     @Override
     @PostMapping("selectPage")
-    public Page<Menu> selectPage(@RequestBody CommonRequestPaging<Menu> record) {
+    public PageInfo<? extends Menu> selectPage(@RequestBody CommonRequestPaging<Menu> record) {
         return menuService.selectPage(record.getArgs(), record.getPaging().getPageNum(), record.getPaging().getPageSize());
     }
 
