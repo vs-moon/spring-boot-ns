@@ -32,13 +32,13 @@ import org.xiao.ns.domain.po.Permission;
 @Mapper
 public interface PermissionMapper extends CommonCountMapper, CommonDeleteMapper, CommonInsertMapper<Permission>, CommonUpdateMapper {
     @Generated("org.mybatis.generator.api.MyBatisGenerator")
-    BasicColumn[] selectList = BasicColumn.columnList(id, source, code, name, createBy, createTime, updateBy, updateTime, valid);
+    BasicColumn[] selectList = BasicColumn.columnList(id, app, code, name, createBy, createTime, updateBy, updateTime, valid);
 
     @Generated("org.mybatis.generator.api.MyBatisGenerator")
     @SelectProvider(type=SqlProviderAdapter.class, method="select")
     @Results(id="PermissionResult", value = {
         @Result(column="F_ID", property="id", jdbcType=JdbcType.BIGINT, id=true),
-        @Result(column="F_SOURCE", property="source", jdbcType=JdbcType.VARCHAR),
+        @Result(column="F_APP", property="app", jdbcType=JdbcType.VARCHAR),
         @Result(column="F_CODE", property="code", jdbcType=JdbcType.VARCHAR),
         @Result(column="F_NAME", property="name", jdbcType=JdbcType.VARCHAR),
         @Result(column="CREATE_BY", property="createBy", jdbcType=JdbcType.BIGINT),
@@ -75,7 +75,7 @@ public interface PermissionMapper extends CommonCountMapper, CommonDeleteMapper,
     default int insert(Permission row) {
         return MyBatis3Utils.insert(this::insert, row, permission, c ->
             c.map(id).toProperty("id")
-            .map(source).toProperty("source")
+            .map(app).toProperty("app")
             .map(code).toProperty("code")
             .map(name).toProperty("name")
             .map(createBy).toProperty("createBy")
@@ -90,7 +90,7 @@ public interface PermissionMapper extends CommonCountMapper, CommonDeleteMapper,
     default int insertMultiple(Collection<Permission> records) {
         return MyBatis3Utils.insertMultiple(this::insertMultiple, records, permission, c ->
             c.map(id).toProperty("id")
-            .map(source).toProperty("source")
+            .map(app).toProperty("app")
             .map(code).toProperty("code")
             .map(name).toProperty("name")
             .map(createBy).toProperty("createBy")
@@ -105,7 +105,7 @@ public interface PermissionMapper extends CommonCountMapper, CommonDeleteMapper,
     default int insertSelective(Permission row) {
         return MyBatis3Utils.insert(this::insert, row, permission, c ->
             c.map(id).toPropertyWhenPresent("id", row::getId)
-            .map(source).toPropertyWhenPresent("source", row::getSource)
+            .map(app).toPropertyWhenPresent("app", row::getApp)
             .map(code).toPropertyWhenPresent("code", row::getCode)
             .map(name).toPropertyWhenPresent("name", row::getName)
             .map(createBy).toPropertyWhenPresent("createBy", row::getCreateBy)
@@ -146,7 +146,7 @@ public interface PermissionMapper extends CommonCountMapper, CommonDeleteMapper,
     @Generated("org.mybatis.generator.api.MyBatisGenerator")
     static UpdateDSL<UpdateModel> updateAllColumns(Permission row, UpdateDSL<UpdateModel> dsl) {
         return dsl.set(id).equalTo(row::getId)
-                .set(source).equalTo(row::getSource)
+                .set(app).equalTo(row::getApp)
                 .set(code).equalTo(row::getCode)
                 .set(name).equalTo(row::getName)
                 .set(createBy).equalTo(row::getCreateBy)
@@ -159,7 +159,7 @@ public interface PermissionMapper extends CommonCountMapper, CommonDeleteMapper,
     @Generated("org.mybatis.generator.api.MyBatisGenerator")
     static UpdateDSL<UpdateModel> updateSelectiveColumns(Permission row, UpdateDSL<UpdateModel> dsl) {
         return dsl.set(id).equalToWhenPresent(row::getId)
-                .set(source).equalToWhenPresent(row::getSource)
+                .set(app).equalToWhenPresent(row::getApp)
                 .set(code).equalToWhenPresent(row::getCode)
                 .set(name).equalToWhenPresent(row::getName)
                 .set(createBy).equalToWhenPresent(row::getCreateBy)
@@ -172,7 +172,7 @@ public interface PermissionMapper extends CommonCountMapper, CommonDeleteMapper,
     @Generated("org.mybatis.generator.api.MyBatisGenerator")
     default int updateByPrimaryKey(Permission row) {
         return update(c ->
-            c.set(source).equalTo(row::getSource)
+            c.set(app).equalTo(row::getApp)
             .set(code).equalTo(row::getCode)
             .set(name).equalTo(row::getName)
             .set(createBy).equalTo(row::getCreateBy)
@@ -187,7 +187,7 @@ public interface PermissionMapper extends CommonCountMapper, CommonDeleteMapper,
     @Generated("org.mybatis.generator.api.MyBatisGenerator")
     default int updateByPrimaryKeySelective(Permission row) {
         return update(c ->
-            c.set(source).equalToWhenPresent(row::getSource)
+            c.set(app).equalToWhenPresent(row::getApp)
             .set(code).equalToWhenPresent(row::getCode)
             .set(name).equalToWhenPresent(row::getName)
             .set(createBy).equalToWhenPresent(row::getCreateBy)

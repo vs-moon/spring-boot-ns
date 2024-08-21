@@ -17,8 +17,8 @@ public class RoleServiceImpl implements RoleService {
     RoleManage roleManage;
 
     @Override
-    public List<Role> selectIn(String source, Long[]  roleIdArray) {
-        return roleManage.selectIn(source, roleIdArray);
+    public String[] selectIn(String app, Long[]  ridArray) {
+        return roleManage.selectIn(app, ridArray);
     }
 
     @Override

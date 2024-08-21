@@ -14,10 +14,10 @@ public final class RoleDynamicSqlSupport {
     public static final SqlColumn<Long> id = role.id;
 
     @Generated("org.mybatis.generator.api.MyBatisGenerator")
-    public static final SqlColumn<Long> parentId = role.parentId;
+    public static final SqlColumn<Long> pid = role.pid;
 
     @Generated("org.mybatis.generator.api.MyBatisGenerator")
-    public static final SqlColumn<String> source = role.source;
+    public static final SqlColumn<String> app = role.app;
 
     @Generated("org.mybatis.generator.api.MyBatisGenerator")
     public static final SqlColumn<String> code = role.code;
@@ -44,9 +44,9 @@ public final class RoleDynamicSqlSupport {
     public static final class Role extends AliasableSqlTable<Role> {
         public final SqlColumn<Long> id = column("F_ID", JDBCType.BIGINT);
 
-        public final SqlColumn<Long> parentId = column("F_PARENT_ID", JDBCType.BIGINT);
+        public final SqlColumn<Long> pid = column("F_PID", JDBCType.BIGINT);
 
-        public final SqlColumn<String> source = column("F_SOURCE", JDBCType.VARCHAR);
+        public final SqlColumn<String> app = column("F_APP", JDBCType.VARCHAR);
 
         public final SqlColumn<String> code = column("F_CODE", JDBCType.VARCHAR);
 

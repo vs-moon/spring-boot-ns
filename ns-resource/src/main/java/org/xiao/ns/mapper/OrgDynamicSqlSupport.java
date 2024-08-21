@@ -14,10 +14,10 @@ public final class OrgDynamicSqlSupport {
     public static final SqlColumn<Long> id = org.id;
 
     @Generated("org.mybatis.generator.api.MyBatisGenerator")
-    public static final SqlColumn<Long> parentId = org.parentId;
+    public static final SqlColumn<Long> pid = org.pid;
 
     @Generated("org.mybatis.generator.api.MyBatisGenerator")
-    public static final SqlColumn<String> source = org.source;
+    public static final SqlColumn<String> app = org.app;
 
     @Generated("org.mybatis.generator.api.MyBatisGenerator")
     public static final SqlColumn<String> code = org.code;
@@ -44,9 +44,9 @@ public final class OrgDynamicSqlSupport {
     public static final class Org extends AliasableSqlTable<Org> {
         public final SqlColumn<Long> id = column("F_ID", JDBCType.BIGINT);
 
-        public final SqlColumn<Long> parentId = column("F_PARENT_ID", JDBCType.BIGINT);
+        public final SqlColumn<Long> pid = column("F_PID", JDBCType.BIGINT);
 
-        public final SqlColumn<String> source = column("F_SOURCE", JDBCType.VARCHAR);
+        public final SqlColumn<String> app = column("F_APP", JDBCType.VARCHAR);
 
         public final SqlColumn<String> code = column("F_CODE", JDBCType.VARCHAR);
 

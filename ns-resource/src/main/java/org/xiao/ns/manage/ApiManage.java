@@ -56,7 +56,7 @@ public class ApiManage implements ManageService<Api> {
     public List<Api> selectMany(Api record) {
         return apiMapper.select(api -> api
                 .where(ApiDynamicSqlSupport.api.column("0"), isEqualTo("0"))
-                .and(ApiDynamicSqlSupport.source, isEqualToWhenPresent(record.getSource()))
+                .and(ApiDynamicSqlSupport.app, isEqualToWhenPresent(record.getApp()))
                 .and(ApiDynamicSqlSupport.method, isEqualToWhenPresent(record.getMethod()))
                 .and(ApiDynamicSqlSupport.path, isLikeCaseInsensitiveWhenPresent(record.getPath()))
                 .and(ApiDynamicSqlSupport.valid, isEqualToWhenPresent(record.getValid())));

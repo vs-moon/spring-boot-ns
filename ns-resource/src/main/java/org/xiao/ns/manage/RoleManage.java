@@ -12,11 +12,10 @@ import org.xiao.cs.common.box.constant.CommonConstant;
 import org.xiao.cs.common.box.domain.ArgsState;
 import org.xiao.cs.db.box.norm.manage.ManageService;
 import org.xiao.ns.domain.po.Role;
-import org.xiao.ns.mapper.MenuDynamicSqlSupport;
+import org.xiao.ns.mapper.RouteDynamicSqlSupport;
 import org.xiao.ns.mapper.RoleDynamicSqlSupport;
 import org.xiao.ns.mapper.RoleMapper;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -28,19 +27,20 @@ public class RoleManage implements ManageService<Role> {
     @Resource
     RoleMapper roleMapper;
 
-    public List<Role> selectIn(String source, Long[] roleIdArray) {
-        if (ArrayUtils.isEmpty(roleIdArray)) {
-            return new ArrayList<>();
+    public String[] selectIn(String app, Long[] ridArray) {
+        if (ArrayUtils.isEmpty(ridArray)) {
+            return ArrayUtils.EMPTY_STRING_ARRAY;
         } else {
-            SelectStatementProvider selectStatementProvider = select(RoleDynamicSqlSupport.id, RoleDynamicSqlSupport.code)
+            SelectStatementProvider selectStatementProvider = select(RoleDynamicSqlSupport.code)
                     .from(RoleDynamicSqlSupport.role)
                     .where()
                     .and(RoleDynamicSqlSupport.valid, isEqualTo(CommonConstant.VALID_T))
-                    .and(RoleDynamicSqlSupport.source, isEqualTo(source))
-                    .and(RoleDynamicSqlSupport.id, isInWhenPresent(roleIdArray))
+                    .and(RoleDynamicSqlSupport.app, isEqualTo(app))
+                    .and(RoleDynamicSqlSupport.id, isInWhenPresent(ridArray))
                     .build()
                     .render(RenderingStrategies.MYBATIS3);
-            return roleMapper.selectMany(selectStatementProvider);
+
+            return roleMapper.selectMany(selectStatementProvider).stream().map(Role::getCode).toArray(String[]::new);
         }
     }
 
@@ -78,8 +78,8 @@ public class RoleManage implements ManageService<Role> {
     public List<Role> selectMany(Role record) {
         return roleMapper.select(role -> role
                 .where(RoleDynamicSqlSupport.role.column("0"), isEqualTo("0"))
-                .and(RoleDynamicSqlSupport.source, isEqualToWhenPresent(record.getSource()))
-                .and(RoleDynamicSqlSupport.parentId, isEqualToWhenPresent(record.getParentId()))
+                .and(RoleDynamicSqlSupport.app, isEqualToWhenPresent(record.getApp()))
+                .and(RoleDynamicSqlSupport.pid, isEqualToWhenPresent(record.getPid()))
                 .and(RoleDynamicSqlSupport.code, isEqualToWhenPresent(record.getCode()))
                 .and(RoleDynamicSqlSupport.valid, isEqualToWhenPresent(record.getValid())));
     }
@@ -121,12 +121,12 @@ public class RoleManage implements ManageService<Role> {
     public Integer validRecursion (Long parentId, String valid, Integer count) {
 
         count += roleMapper.update(api -> api
-                .set(MenuDynamicSqlSupport.valid).equalTo(valid)
+                .set(RouteDynamicSqlSupport.valid).equalTo(valid)
                 .where()
-                .and(MenuDynamicSqlSupport.parentId, isEqualTo(parentId)));
+                .and(RouteDynamicSqlSupport.pid, isEqualTo(parentId)));
 
         List<Role> children = roleMapper.select(menu -> menu
-                .where(MenuDynamicSqlSupport.parentId, isEqualToWhenPresent(parentId)));
+                .where(RouteDynamicSqlSupport.pid, isEqualToWhenPresent(parentId)));
 
         if (children != null && !children.isEmpty()) {
             for (Role item : children) {

@@ -6,7 +6,6 @@ import com.github.pagehelper.PageInfo;
 import jakarta.annotation.Resource;
 import org.apache.commons.lang3.ArrayUtils;
 import org.mybatis.dynamic.sql.render.RenderingStrategies;
-import org.mybatis.dynamic.sql.select.QueryExpressionDSL;
 import org.mybatis.dynamic.sql.select.render.SelectStatementProvider;
 import org.springframework.stereotype.Service;
 import org.xiao.cs.common.box.constant.CommonConstant;
@@ -27,33 +26,22 @@ public class PermissionManage implements ManageService<Permission> {
     @Resource
     PermissionMapper permissionMapper;
 
-    public String[] selectIn(String source, Long[] orgIdArray, Long[] roleIdArray) {
-
-        QueryExpressionDSL<org.mybatis.dynamic.sql.select.SelectModel>.QueryExpressionWhereBuilder andQuery = selectDistinct(PermissionDynamicSqlSupport.code)
-                .from(PermissionDynamicSqlSupport.permission)
-                .where()
-                .and(PermissionDynamicSqlSupport.valid, isEqualTo(CommonConstant.VALID_T))
-                .and(PermissionDynamicSqlSupport.source, isEqualTo(source));
-
-        if (ArrayUtils.isEmpty(orgIdArray) && ArrayUtils.isEmpty(roleIdArray)) {
+    public String[] selectIn(String app, Long[] permissionIdArray) {
+        if (ArrayUtils.isEmpty(permissionIdArray)) {
             return ArrayUtils.EMPTY_STRING_ARRAY;
-        } else if (ArrayUtils.isNotEmpty(orgIdArray) && ArrayUtils.isNotEmpty(roleIdArray)) {
-            andQuery
-                    .and(PermissionDynamicSqlSupport.id, isInWhenPresent(orgIdArray),
-                            or(PermissionDynamicSqlSupport.id, isInWhenPresent(roleIdArray)));
-        } else if (ArrayUtils.isNotEmpty(orgIdArray)) {
-            andQuery
-                    .and(PermissionDynamicSqlSupport.id, isInWhenPresent(orgIdArray));
         } else {
-            andQuery
-                    .and(PermissionDynamicSqlSupport.id, isInWhenPresent(roleIdArray));
+            SelectStatementProvider selectStatementProvider = select(PermissionDynamicSqlSupport.code)
+                    .from(PermissionDynamicSqlSupport.permission)
+                    .where()
+                    .and(PermissionDynamicSqlSupport.valid, isEqualTo(CommonConstant.VALID_T))
+                    .and(PermissionDynamicSqlSupport.app, isEqualToWhenPresent(app))
+                    .and(PermissionDynamicSqlSupport.id, isInWhenPresent(permissionIdArray))
+                    .build()
+                    .render(RenderingStrategies.MYBATIS3);
+
+
+            return permissionMapper.selectMany(selectStatementProvider).stream().map(Permission::getCode).toArray(String[]::new);
         }
-
-        SelectStatementProvider selectStatementProvider = andQuery
-                .build()
-                .render(RenderingStrategies.MYBATIS3);
-
-        return permissionMapper.selectMany(selectStatementProvider).stream().map(Permission::getCode).toArray(String[]::new);
     }
 
     @Override
@@ -90,7 +78,7 @@ public class PermissionManage implements ManageService<Permission> {
     public List<Permission> selectMany(Permission record) {
         return permissionMapper.select(permission -> permission
                 .where(PermissionDynamicSqlSupport.permission.column("0"), isEqualTo("0"))
-                .and(PermissionDynamicSqlSupport.source, isEqualToWhenPresent(record.getSource()))
+                .and(PermissionDynamicSqlSupport.app, isEqualToWhenPresent(record.getApp()))
                 .and(PermissionDynamicSqlSupport.code, isEqualToWhenPresent(record.getCode()))
                 .and(PermissionDynamicSqlSupport.valid, isEqualToWhenPresent(record.getValid())));
     }

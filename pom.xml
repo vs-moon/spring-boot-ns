@@ -18,11 +18,14 @@
   </parent>
 
   <modules>
+    <module>ns-domain</module>
     <module>ns-gateway</module>
+    <module>ns-im</module>
     <module>ns-remote</module>
     <module>ns-resource</module>
-    <module>ns-sso</module>
-    <module>ns-im</module>
+    <module>ns-sso-admin</module>
+    <module>ns-sso-client</module>
+    <module>ns-sso-deploy</module>
   </modules>
 
   <properties>
@@ -44,13 +47,37 @@
 
       <dependency>
         <groupId>org.xiao.ns</groupId>
+        <artifactId>ns-domain</artifactId>
+        <version>${project.version}</version>
+      </dependency>
+
+      <dependency>
+        <groupId>org.xiao.ns</groupId>
         <artifactId>ns-gateway</artifactId>
         <version>${project.version}</version>
       </dependency>
 
       <dependency>
         <groupId>org.xiao.ns</groupId>
-        <artifactId>ns-sso</artifactId>
+        <artifactId>ns-im</artifactId>
+        <version>${project.version}</version>
+      </dependency>
+
+      <dependency>
+        <groupId>org.xiao.ns</groupId>
+        <artifactId>ns-sso-admin</artifactId>
+        <version>${project.version}</version>
+      </dependency>
+
+      <dependency>
+        <groupId>org.xiao.ns</groupId>
+        <artifactId>ns-sso-client</artifactId>
+        <version>${project.version}</version>
+      </dependency>
+
+      <dependency>
+        <groupId>org.xiao.ns</groupId>
+        <artifactId>ns-sso-deploy</artifactId>
         <version>${project.version}</version>
       </dependency>
 

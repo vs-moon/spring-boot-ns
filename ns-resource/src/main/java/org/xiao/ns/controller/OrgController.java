@@ -56,6 +56,12 @@ public class OrgController implements FaceService<Org> {
     }
 
     @Override
+    @PostMapping("selectLazy")
+    public List<? extends Org> selectLazy(@RequestBody CommonRequest<Org> record) {
+        return orgService.selectLazy(record.getArgs());
+    }
+
+    @Override
     @PostMapping("selectPage")
     public PageInfo<? extends Org> selectPage(@RequestBody CommonRequestPaging<Org> record) {
         return orgService.selectPage(record.getArgs(), record.getPaging().getPageNum(), record.getPaging().getPageSize());

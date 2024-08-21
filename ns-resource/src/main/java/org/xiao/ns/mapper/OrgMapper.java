@@ -32,14 +32,14 @@ import org.xiao.ns.domain.po.Org;
 @Mapper
 public interface OrgMapper extends CommonCountMapper, CommonDeleteMapper, CommonInsertMapper<Org>, CommonUpdateMapper {
     @Generated("org.mybatis.generator.api.MyBatisGenerator")
-    BasicColumn[] selectList = BasicColumn.columnList(id, parentId, source, code, name, createBy, createTime, updateBy, updateTime, valid);
+    BasicColumn[] selectList = BasicColumn.columnList(id, pid, app, code, name, createBy, createTime, updateBy, updateTime, valid);
 
     @Generated("org.mybatis.generator.api.MyBatisGenerator")
     @SelectProvider(type=SqlProviderAdapter.class, method="select")
     @Results(id="OrgResult", value = {
         @Result(column="F_ID", property="id", jdbcType=JdbcType.BIGINT, id=true),
-        @Result(column="F_PARENT_ID", property="parentId", jdbcType=JdbcType.BIGINT),
-        @Result(column="F_SOURCE", property="source", jdbcType=JdbcType.VARCHAR),
+        @Result(column="F_PID", property="pid", jdbcType=JdbcType.BIGINT),
+        @Result(column="F_APP", property="app", jdbcType=JdbcType.VARCHAR),
         @Result(column="F_CODE", property="code", jdbcType=JdbcType.VARCHAR),
         @Result(column="F_NAME", property="name", jdbcType=JdbcType.VARCHAR),
         @Result(column="CREATE_BY", property="createBy", jdbcType=JdbcType.BIGINT),
@@ -76,8 +76,8 @@ public interface OrgMapper extends CommonCountMapper, CommonDeleteMapper, Common
     default int insert(Org row) {
         return MyBatis3Utils.insert(this::insert, row, org, c ->
             c.map(id).toProperty("id")
-            .map(parentId).toProperty("parentId")
-            .map(source).toProperty("source")
+            .map(pid).toProperty("pid")
+            .map(app).toProperty("app")
             .map(code).toProperty("code")
             .map(name).toProperty("name")
             .map(createBy).toProperty("createBy")
@@ -92,8 +92,8 @@ public interface OrgMapper extends CommonCountMapper, CommonDeleteMapper, Common
     default int insertMultiple(Collection<Org> records) {
         return MyBatis3Utils.insertMultiple(this::insertMultiple, records, org, c ->
             c.map(id).toProperty("id")
-            .map(parentId).toProperty("parentId")
-            .map(source).toProperty("source")
+            .map(pid).toProperty("pid")
+            .map(app).toProperty("app")
             .map(code).toProperty("code")
             .map(name).toProperty("name")
             .map(createBy).toProperty("createBy")
@@ -108,8 +108,8 @@ public interface OrgMapper extends CommonCountMapper, CommonDeleteMapper, Common
     default int insertSelective(Org row) {
         return MyBatis3Utils.insert(this::insert, row, org, c ->
             c.map(id).toPropertyWhenPresent("id", row::getId)
-            .map(parentId).toPropertyWhenPresent("parentId", row::getParentId)
-            .map(source).toPropertyWhenPresent("source", row::getSource)
+            .map(pid).toPropertyWhenPresent("pid", row::getPid)
+            .map(app).toPropertyWhenPresent("app", row::getApp)
             .map(code).toPropertyWhenPresent("code", row::getCode)
             .map(name).toPropertyWhenPresent("name", row::getName)
             .map(createBy).toPropertyWhenPresent("createBy", row::getCreateBy)
@@ -150,8 +150,8 @@ public interface OrgMapper extends CommonCountMapper, CommonDeleteMapper, Common
     @Generated("org.mybatis.generator.api.MyBatisGenerator")
     static UpdateDSL<UpdateModel> updateAllColumns(Org row, UpdateDSL<UpdateModel> dsl) {
         return dsl.set(id).equalTo(row::getId)
-                .set(parentId).equalTo(row::getParentId)
-                .set(source).equalTo(row::getSource)
+                .set(pid).equalTo(row::getPid)
+                .set(app).equalTo(row::getApp)
                 .set(code).equalTo(row::getCode)
                 .set(name).equalTo(row::getName)
                 .set(createBy).equalTo(row::getCreateBy)
@@ -164,8 +164,8 @@ public interface OrgMapper extends CommonCountMapper, CommonDeleteMapper, Common
     @Generated("org.mybatis.generator.api.MyBatisGenerator")
     static UpdateDSL<UpdateModel> updateSelectiveColumns(Org row, UpdateDSL<UpdateModel> dsl) {
         return dsl.set(id).equalToWhenPresent(row::getId)
-                .set(parentId).equalToWhenPresent(row::getParentId)
-                .set(source).equalToWhenPresent(row::getSource)
+                .set(pid).equalToWhenPresent(row::getPid)
+                .set(app).equalToWhenPresent(row::getApp)
                 .set(code).equalToWhenPresent(row::getCode)
                 .set(name).equalToWhenPresent(row::getName)
                 .set(createBy).equalToWhenPresent(row::getCreateBy)
@@ -178,8 +178,8 @@ public interface OrgMapper extends CommonCountMapper, CommonDeleteMapper, Common
     @Generated("org.mybatis.generator.api.MyBatisGenerator")
     default int updateByPrimaryKey(Org row) {
         return update(c ->
-            c.set(parentId).equalTo(row::getParentId)
-            .set(source).equalTo(row::getSource)
+            c.set(pid).equalTo(row::getPid)
+            .set(app).equalTo(row::getApp)
             .set(code).equalTo(row::getCode)
             .set(name).equalTo(row::getName)
             .set(createBy).equalTo(row::getCreateBy)
@@ -194,8 +194,8 @@ public interface OrgMapper extends CommonCountMapper, CommonDeleteMapper, Common
     @Generated("org.mybatis.generator.api.MyBatisGenerator")
     default int updateByPrimaryKeySelective(Org row) {
         return update(c ->
-            c.set(parentId).equalToWhenPresent(row::getParentId)
-            .set(source).equalToWhenPresent(row::getSource)
+            c.set(pid).equalToWhenPresent(row::getPid)
+            .set(app).equalToWhenPresent(row::getApp)
             .set(code).equalToWhenPresent(row::getCode)
             .set(name).equalToWhenPresent(row::getName)
             .set(createBy).equalToWhenPresent(row::getCreateBy)

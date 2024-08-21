@@ -8,7 +8,7 @@ public class Permission {
     private Long id;
 
     @Generated("org.mybatis.generator.api.MyBatisGenerator")
-    private String source;
+    private String app;
 
     @Generated("org.mybatis.generator.api.MyBatisGenerator")
     private String code;
@@ -42,13 +42,13 @@ public class Permission {
     }
 
     @Generated("org.mybatis.generator.api.MyBatisGenerator")
-    public String getSource() {
-        return source;
+    public String getApp() {
+        return app;
     }
 
     @Generated("org.mybatis.generator.api.MyBatisGenerator")
-    public void setSource(String source) {
-        this.source = source == null ? null : source.trim();
+    public void setApp(String app) {
+        this.app = app == null ? null : app.trim();
     }
 
     @Generated("org.mybatis.generator.api.MyBatisGenerator")

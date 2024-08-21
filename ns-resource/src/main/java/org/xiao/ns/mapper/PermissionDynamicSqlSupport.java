@@ -14,7 +14,7 @@ public final class PermissionDynamicSqlSupport {
     public static final SqlColumn<Long> id = permission.id;
 
     @Generated("org.mybatis.generator.api.MyBatisGenerator")
-    public static final SqlColumn<String> source = permission.source;
+    public static final SqlColumn<String> app = permission.app;
 
     @Generated("org.mybatis.generator.api.MyBatisGenerator")
     public static final SqlColumn<String> code = permission.code;
@@ -41,7 +41,7 @@ public final class PermissionDynamicSqlSupport {
     public static final class Permission extends AliasableSqlTable<Permission> {
         public final SqlColumn<Long> id = column("F_ID", JDBCType.BIGINT);
 
-        public final SqlColumn<String> source = column("F_SOURCE", JDBCType.VARCHAR);
+        public final SqlColumn<String> app = column("F_APP", JDBCType.VARCHAR);
 
         public final SqlColumn<String> code = column("F_CODE", JDBCType.VARCHAR);
 

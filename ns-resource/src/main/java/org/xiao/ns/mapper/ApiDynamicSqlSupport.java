@@ -14,7 +14,7 @@ public final class ApiDynamicSqlSupport {
     public static final SqlColumn<Long> id = api.id;
 
     @Generated("org.mybatis.generator.api.MyBatisGenerator")
-    public static final SqlColumn<String> source = api.source;
+    public static final SqlColumn<String> app = api.app;
 
     @Generated("org.mybatis.generator.api.MyBatisGenerator")
     public static final SqlColumn<String> path = api.path;
@@ -41,7 +41,7 @@ public final class ApiDynamicSqlSupport {
     public static final class Api extends AliasableSqlTable<Api> {
         public final SqlColumn<Long> id = column("F_ID", JDBCType.BIGINT);
 
-        public final SqlColumn<String> source = column("F_SOURCE", JDBCType.VARCHAR);
+        public final SqlColumn<String> app = column("F_APP", JDBCType.VARCHAR);
 
         public final SqlColumn<String> path = column("F_PATH", JDBCType.VARCHAR);
 

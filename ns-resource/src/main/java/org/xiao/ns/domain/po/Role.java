@@ -8,10 +8,10 @@ public class Role {
     private Long id;
 
     @Generated("org.mybatis.generator.api.MyBatisGenerator")
-    private Long parentId;
+    private Long pid;
 
     @Generated("org.mybatis.generator.api.MyBatisGenerator")
-    private String source;
+    private String app;
 
     @Generated("org.mybatis.generator.api.MyBatisGenerator")
     private String code;
@@ -45,23 +45,23 @@ public class Role {
     }
 
     @Generated("org.mybatis.generator.api.MyBatisGenerator")
-    public Long getParentId() {
-        return parentId;
+    public Long getPid() {
+        return pid;
     }
 
     @Generated("org.mybatis.generator.api.MyBatisGenerator")
-    public void setParentId(Long parentId) {
-        this.parentId = parentId;
+    public void setPid(Long pid) {
+        this.pid = pid;
     }
 
     @Generated("org.mybatis.generator.api.MyBatisGenerator")
-    public String getSource() {
-        return source;
+    public String getApp() {
+        return app;
     }
 
     @Generated("org.mybatis.generator.api.MyBatisGenerator")
-    public void setSource(String source) {
-        this.source = source == null ? null : source.trim();
+    public void setApp(String app) {
+        this.app = app == null ? null : app.trim();
     }
 
     @Generated("org.mybatis.generator.api.MyBatisGenerator")

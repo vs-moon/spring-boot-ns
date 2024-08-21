@@ -18,8 +18,8 @@ public class PermissionServiceImpl implements PermissionService {
 
 
     @Override
-    public String[] selectIn(String source, Long[] orgIdArray, Long[] roleIdArray) {
-        return permissionManage.selectIn(source, orgIdArray, roleIdArray);
+    public String[] selectIn(String app, Long[] permissionIdArray) {
+        return permissionManage.selectIn(app, permissionIdArray);
     }
 
     @Override

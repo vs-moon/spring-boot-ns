@@ -11,36 +11,36 @@ import org.springframework.stereotype.Service;
 import org.xiao.cs.common.box.constant.CommonConstant;
 import org.xiao.cs.common.box.domain.ArgsState;
 import org.xiao.cs.db.box.norm.manage.ManageService;
+import org.xiao.cs.db.box.norm.manage.ManageServiceCount;
 import org.xiao.ns.domain.po.Org;
-import org.xiao.ns.mapper.MenuDynamicSqlSupport;
+import org.xiao.ns.domain.po.Route;
 import org.xiao.ns.mapper.OrgDynamicSqlSupport;
 import org.xiao.ns.mapper.OrgMapper;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import static org.mybatis.dynamic.sql.SqlBuilder.*;
 
 @Service
-public class OrgManage implements ManageService<Org> {
+public class OrgManage implements ManageService<Org>, ManageServiceCount<Route, Long> {
 
     @Resource
     OrgMapper orgMapper;
 
-    public List<Org> selectIn(String source, Long[] orgIdArray) {
-        if (ArrayUtils.isEmpty(orgIdArray)) {
-            return new ArrayList<>();
+    public String[] selectIn(String app, Long[] oidArray) {
+        if (ArrayUtils.isEmpty(oidArray)) {
+            return ArrayUtils.EMPTY_STRING_ARRAY;
         } else {
             SelectStatementProvider selectStatementProvider = select(OrgDynamicSqlSupport.id, OrgDynamicSqlSupport.code)
                     .from(OrgDynamicSqlSupport.org)
                     .where()
                     .and(OrgDynamicSqlSupport.valid, isEqualTo(CommonConstant.VALID_T))
-                    .and(OrgDynamicSqlSupport.source, isEqualTo(source))
-                    .and(OrgDynamicSqlSupport.id, isInWhenPresent(orgIdArray))
+                    .and(OrgDynamicSqlSupport.app, isEqualTo(app))
+                    .and(OrgDynamicSqlSupport.id, isIn(oidArray))
                     .build()
                     .render(RenderingStrategies.MYBATIS3);
-            return orgMapper.selectMany(selectStatementProvider);
+            return orgMapper.selectMany(selectStatementProvider).stream().map(Org::getCode).toArray(String[]::new);
         }
     }
 
@@ -78,9 +78,18 @@ public class OrgManage implements ManageService<Org> {
     public List<Org> selectMany(Org record) {
         return orgMapper.select(org -> org
                 .where(OrgDynamicSqlSupport.org.column("0"), isEqualTo("0"))
-                .and(OrgDynamicSqlSupport.parentId, isEqualToWhenPresent(record.getParentId()))
-                .and(OrgDynamicSqlSupport.source, isEqualToWhenPresent(record.getSource()))
+                .and(OrgDynamicSqlSupport.pid, isEqualToWhenPresent(record.getPid()))
+                .and(OrgDynamicSqlSupport.app, isEqualToWhenPresent(record.getApp()))
                 .and(OrgDynamicSqlSupport.code, isEqualToWhenPresent(record.getCode()))
+                .and(OrgDynamicSqlSupport.valid, isEqualToWhenPresent(record.getValid())));
+    }
+
+    @Override
+    public List<Org> selectLazy(Org record) {
+        return orgMapper.select(route -> route
+                .where(OrgDynamicSqlSupport.org.column("0"), isEqualTo("0"))
+                .and(OrgDynamicSqlSupport.app, isEqualToWhenPresent(record.getApp()))
+                .and(OrgDynamicSqlSupport.pid, isEqualToWhenPresent(record.getId()))
                 .and(OrgDynamicSqlSupport.valid, isEqualToWhenPresent(record.getValid())));
     }
 
@@ -121,12 +130,12 @@ public class OrgManage implements ManageService<Org> {
     public Integer validRecursion (Long parentId, String valid, Integer count) {
 
         count += orgMapper.update(api -> api
-                .set(MenuDynamicSqlSupport.valid).equalTo(valid)
+                .set(OrgDynamicSqlSupport.valid).equalTo(valid)
                 .where()
-                .and(MenuDynamicSqlSupport.parentId, isEqualTo(parentId)));
+                .and(OrgDynamicSqlSupport.pid, isEqualTo(parentId)));
 
         List<Org> children = orgMapper.select(menu -> menu
-                .where(MenuDynamicSqlSupport.parentId, isEqualToWhenPresent(parentId)));
+                .where(OrgDynamicSqlSupport.pid, isEqualToWhenPresent(parentId)));
 
         if (children != null && !children.isEmpty()) {
             for (Org item : children) {
@@ -143,5 +152,10 @@ public class OrgManage implements ManageService<Org> {
                 .set(OrgDynamicSqlSupport.valid).equalTo(record.getTo())
                 .where()
                 .and(OrgDynamicSqlSupport.id, isIn(record.getBy())));
+    }
+
+    @Override
+    public long countByKey(Long record) {
+        return orgMapper.count(route -> route.where(OrgDynamicSqlSupport.pid, isEqualTo(record)));
     }
 }

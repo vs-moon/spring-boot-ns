@@ -56,6 +56,7 @@ public class DicTypeManage implements ManageService<DicType> {
         return dicTypeMapper.select(dic -> dic
                 .where(DicTypeDynamicSqlSupport.dicType.column("0"), isEqualTo("0"))
                 .and(DicTypeDynamicSqlSupport.code, isEqualToWhenPresent(record.getCode()))
+                .and(DicTypeDynamicSqlSupport.name, isEqualToWhenPresent(record.getName()))
                 .and(DicTypeDynamicSqlSupport.valid, isEqualToWhenPresent(record.getValid())));
     }
 

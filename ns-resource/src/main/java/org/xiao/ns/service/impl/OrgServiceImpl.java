@@ -4,7 +4,9 @@ import com.github.pagehelper.PageInfo;
 import jakarta.annotation.Resource;
 import org.springframework.stereotype.Service;
 import org.xiao.cs.common.box.domain.ArgsState;
+import org.xiao.cs.common.box.utils.FunctionUtils;
 import org.xiao.ns.domain.po.Org;
+import org.xiao.ns.domain.vo.OrgVO;
 import org.xiao.ns.manage.OrgManage;
 import org.xiao.ns.service.OrgService;
 
@@ -17,8 +19,8 @@ public class OrgServiceImpl implements OrgService {
     OrgManage orgManage;
 
     @Override
-    public List<Org> selectIn(String source, Long[] roleIdArray) {
-        return orgManage.selectIn(source, roleIdArray);
+    public String[] selectIn(String app, Long[] roleIdArray) {
+        return orgManage.selectIn(app, roleIdArray);
     }
 
     @Override
@@ -49,6 +51,15 @@ public class OrgServiceImpl implements OrgService {
     @Override
     public List<? extends Org> selectMany(Org record) {
         return orgManage.selectMany(record);
+    }
+
+    @Override
+    public List<? extends Org> selectLazy(Org record) {
+        return FunctionUtils.reBuild(orgManage.selectLazy(record), org -> FunctionUtils.reBuild(org, OrgVO::new, (routeVO) -> {
+            if (orgManage.countByKey(org.getId()) > 0) {
+                routeVO.setHasChildren(true);
+            }
+        }));
     }
 
     @Override
